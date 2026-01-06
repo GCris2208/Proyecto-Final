@@ -23,7 +23,6 @@ const SYSTEM_INSTRUCTION = {
     }]
 };
 
-// 2. Corregido: Quitamos 'export' para que funcione simple en el navegador
 async function enviarMensajeGemini(userMessage) {
     try {
         const requestBody = {
