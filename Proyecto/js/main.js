@@ -2,13 +2,8 @@ document.getElementById('sendChat').addEventListener('click', async () => {
     const input = document.getElementById('chatInput');
     const textoUsuario = input.value;
     if (!textoUsuario) return;
-
-    // 1. Mostrar mensaje del usuario
     agregarMensajeAlChat(textoUsuario, 'user');
     input.value = '';
-
-    // 2. Llamar a la IA (Ahora funciona porque enviarMensajeGemini es global)
-    // Agregamos un indicador de carga opcional aquí si quisieras
     const respuestaIA = await enviarMensajeGemini(textoUsuario);
 
     // 3. Mostrar respuesta de la IA
