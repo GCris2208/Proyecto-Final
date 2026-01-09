@@ -10,37 +10,39 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top py-3">
         <div class="container-fluid px-4">
             <a class="navbar-brand fw-black fs-3" href="#">VEST<span class="text-secondary">IA</span></a>
-            
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <div class="d-flex align-items-center gap-3 order-lg-last ms-auto ms-lg-0">
+                <button class="btn btn-link text-dark p-0" title="Mi Perfil">
+                    <i class="fa-regular fa-user fs-5"></i>
+                </button>
+                <button class="btn btn-link text-dark p-0 position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+                    <i class="fa-solid fa-bag-shopping fs-5"></i>
+                    <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                        0
+                    </span>
+                </button>
+            </div>
+            <button class="navbar-toggler border-0 ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse justify-content-center" id="navbarContent">
-                <ul class="navbar-nav mb-2 mb-lg-0 fw-bold">
-                    <li class="nav-item mx-2"><a class="nav-link text-dark" href="#">Novedades</a></li>
-                    <li class="nav-item mx-2"><a class="nav-link text-dark" href="#catalogo">Hombre</a></li>
-                    <li class="nav-item mx-2"><a class="nav-link text-dark" href="#catalogo">Mujer</a></li>
-                    <li class="nav-item mx-2"><a class="nav-link text-dark" href="#catalogo">Accesorios</a></li>
+                <ul class="navbar-nav mb-2 mb-lg-0 text-uppercase small fw-bold text-center mt-3 mt-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#">Novedades</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Hombre</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Mujer</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Accesorios</a></li>
                 </ul>
-            </div>
-            <input class="form-control rounded-pill border-0 bg-light" id="searchInput" type="search" placeholder="Buscar productos..." aria-label="Search">
-            <div class="d-flex align-items-center gap-3 icons-menu">
-                <a href="#" class="text-dark"><i class="fa-solid fa-magnifying-glass fs-5"></i></a>
-                <a href="#" class="text-dark" data-bs-toggle="modal" data-bs-target="#imageModal" title="Analizar Outfit">
-                    <i class="fa-solid fa-camera fs-5"></i>
-                </a>
-                <a href="#" class="text-dark position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
-                    <i class="fa-solid fa-bag-shopping fs-5"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count" style="font-size: 0.6rem;">0</span>
-                </a>
+                <div class="d-flex ms-lg-4 mt-3 mt-lg-0 justify-content-center">
+                    <div class="input-group rounded-pill bg-light border" style="max-width: 250px;">
+                        <span class="input-group-text border-0 bg-transparent text-muted"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" id="searchInput" class="form-control border-0 bg-transparent shadow-none small" placeholder="Buscar...">
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
-
     <header class="hero-section text-center d-flex align-items-end justify-content-center pb-5 text-white">
         <div class="container pb-5">
             <h1 class="display-1 fw-black text-uppercase mb-2">Tu Estilo.<br>Tu IA.</h1>

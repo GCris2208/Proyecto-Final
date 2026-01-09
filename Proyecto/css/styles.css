@@ -67,3 +67,18 @@ body {
 .object-fit-cover {
     object-fit: cover;
 }
+html, body {
+    overflow-x: hidden !important;
+    width: 100%;
+    position: relative;
+}
+.btn.position-fixed.bottom-0.end-0 {
+    right: 20px !important;
+    bottom: 20px !important;
+    margin: 0 !important;
+    z-index: 1050 !important;
+}
+.navbar-toggler:focus {
+    box-shadow: none !important;
+    border-color: transparent !important;
+}

@@ -46,3 +46,13 @@ function mostrarBotonFiltro(filtros) {
     chatContainer.appendChild(div);
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
+
+const inputChat = document.getElementById('chatInput');
+if (inputChat) {
+    inputChat.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault(); 
+            document.getElementById('sendChat').click();
+        }
+    });
+}
