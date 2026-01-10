@@ -2,6 +2,62 @@ let allProducts = [];
 let currentFiltered = [];
 let visibleCount = 12;
 
+function traducirCategoria(input) {
+    if (!input) return '';
+    const termino = input.toLowerCase().trim();
+    const diccionario = {
+        'todo': 'all',
+        'todos': 'all',
+        'variado': 'all',
+        'ver todo': 'all',
+        'zapato': 'shoes',
+        'zapatos': 'shoes',
+        'zapatilla': 'shoes',
+        'zapatillas': 'shoes',
+        'bota': 'shoes',
+        'botas': 'shoes',
+        'calzado': 'shoes',
+        'calzados': 'shoes',
+        'franela': 'mens-shirts',
+        'franelas': 'mens-shirts',
+        'camisa': 'mens-shirts',
+        'camisas': 'mens-shirts',
+        'camiseta': 'mens-shirts',
+        'camisetas': 'mens-shirts',
+        'chemise': 'mens-shirts',
+        'chemises': 'mens-shirts',
+        'top': 'tops',
+        'tops': 'tops',
+        'blusa': 'tops',
+        'hombre': 'mens',
+        'caballero': 'mens',
+        'hombres': 'mens',
+        'caballeros': 'mens',
+        'mujer': 'womens',
+        'dama': 'womens',
+        'mujeres': 'womens',
+        'damas': 'womens',
+        'vestido': 'dresses',
+        'lente': 'sunglasses',
+        'lentes': 'sunglasses',
+        'gafas': 'sunglasses',
+        'bolso': 'womens-bags',
+        'bolsos': 'womens-bags',
+        'cartera': 'womens-bags',
+        'carteras': 'womens-bags',
+        'accesorio': 'accessories',
+        'accesorios': 'accessories'
+    };
+    const claves = Object.keys(diccionario);
+    for (let i = 0; i < claves.length; i++) {
+        if (claves[i].startsWith(termino)) {
+            return diccionario[claves[i]];
+        }
+    }
+    return '';
+}
+window.traducirCategoria = traducirCategoria;
+
 document.addEventListener('DOMContentLoaded', () => {
     loadProducts();
 
@@ -13,26 +69,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase().trim();
-            if (term === '') {
-                currentFiltered = allProducts;
-                const titleEl = document.querySelector('h2');
-                if(titleEl) titleEl.innerText = "Novedades";
-                renderProducts(allProducts, true);
-                return;
-            }
-            const searchResults = allProducts.filter(product => 
-                product.title.toLowerCase().includes(term) || 
-                product.category.toLowerCase().replace('-', ' ').includes(term)
-            );
+const searchInput = document.getElementById('searchInput');
+if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase().trim();
+        if (term === '') {
+            currentFiltered = allProducts;
             const titleEl = document.querySelector('h2');
-            if(titleEl) titleEl.innerText = `Resultados para: "${term}"`;
-            renderProducts(searchResults, true);
+            if(titleEl) titleEl.innerText = "Novedades";
+            renderProducts(allProducts, true);
+            return;
+        }
+        const terminoTraducido = traducirCategoria(term); 
+        console.log(`Buscando: "${term}" | Traducido a: "${terminoTraducido}"`);
+        const searchResults = allProducts.filter(product => {
+            const titleMatch = product.title.toLowerCase().includes(term);
+            const categoryMatch = product.category.toLowerCase().includes(term);
+            const translatedMatch = terminoTraducido ? product.category.toLowerCase().includes(terminoTraducido) : false;
+            return titleMatch || categoryMatch || translatedMatch;
         });
-    }
+        const titleEl = document.querySelector('h2');
+        if(titleEl) titleEl.innerText = `Resultados para: "${term}"`;
+        renderProducts(searchResults, true);
+    });
+}
 });
 
 window.openQuickView = function(productId) {
@@ -135,19 +195,34 @@ function renderProducts(products, resetVisibility = false) {
         loadMoreBtn.style.display = (visibleCount >= products.length) ? 'none' : 'block';
     }
 }
-window.filterByCategory = function(categoryType) {
+window.filterByCategory = function(categoryInput) {
+    const categoryType = categoryInput.toLowerCase().trim();
+    console.log("Filtro recibido:", categoryInput, "-> Procesado:", categoryType);
+    if (categoryType === 'all') {
+        currentFiltered = allProducts;
+        renderProducts(allProducts, true);
+        const titleEl = document.querySelector('h2');
+        if(titleEl) titleEl.innerText = "Novedades (Todos los productos)";
+        const sidebar = document.getElementById('filterSidebar');
+        return;
+    }
     let filtered = [];
-    if (categoryType === 'all' || categoryType === 'novedades') filtered = allProducts;
-    else if (categoryType === 'franelas') filtered = allProducts.filter(p => p.category === 'mens-shirts' || p.category === 'tops');
-    else if (categoryType === 'tops') filtered = allProducts.filter(p => p.category === 'tops');
-    else if (categoryType === 'mens') filtered = allProducts.filter(p => p.category.startsWith('mens-'));
-    else if (categoryType === 'womens') filtered = allProducts.filter(p => p.category.startsWith('womens-') || p.category === 'tops');
-    else if (categoryType === 'accessories') filtered = allProducts.filter(p => p.category === 'sunglasses' || p.category === 'womens-bags');
-    else if (categoryType === 'dresses') filtered = allProducts.filter(p => p.category === 'womens-dresses');
-    else if (categoryType === 'shoes') filtered = allProducts.filter(p => p.category.includes('shoes'));
-    const titleEl = document.querySelector('h2'); 
-    if(titleEl) titleEl.innerText = categoryType === 'all' ? "Catálogo Completo" : categoryType.toUpperCase();
+    if (categoryType === 'mens') {
+        filtered = allProducts.filter(p => p.category.startsWith('mens-'));
+    }
+    else if (categoryType === 'womens') {
+        filtered = allProducts.filter(p => p.category.startsWith('womens-') && !p.category.includes('shoes'));
+    }
+    else {
+        filtered = allProducts.filter(p => p.category.toLowerCase().includes(categoryType));
+    }
+    currentFiltered = filtered;
+    visibleCount = 12;
     renderProducts(filtered, true);
+    const titleEl = document.querySelector('h2'); 
+    if(titleEl) {
+        titleEl.innerText = "Categoría: " + categoryInput.charAt(0).toUpperCase() + categoryInput.slice(1);
+    }
 };
 
 window.sortProducts = function(sortValue) {

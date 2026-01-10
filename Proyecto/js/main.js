@@ -5,11 +5,7 @@ document.getElementById('sendChat').addEventListener('click', async () => {
     agregarMensajeAlChat(textoUsuario, 'user');
     input.value = '';
     const respuestaIA = await enviarMensajeGemini(textoUsuario);
-
-    // 3. Mostrar respuesta de la IA
     agregarMensajeAlChat(respuestaIA.mensaje, 'bot');
-
-    // 4. Botón mágico
     if (respuestaIA.recomienda_filtro) {
         mostrarBotonFiltro(respuestaIA.filtros);
     }
@@ -31,6 +27,7 @@ function agregarMensajeAlChat(mensaje, sender) {
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
+// ACTUALIZA ESTO EN main.js
 function mostrarBotonFiltro(filtros) {
     const chatContainer = document.getElementById('chat-messages');
     const div = document.createElement('div');
@@ -39,8 +36,24 @@ function mostrarBotonFiltro(filtros) {
     btn.className = 'btn btn-sm btn-outline-dark mt-1';
     btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Ver productos recomendados';
     btn.onclick = () => {
-        console.log("Aplicando filtros:", filtros);
+        console.log("--- INICIANDO FILTRADO DESDE CHAT ---");
         window.location.href = '#catalogo';
+        if (window.filterByCategory) {
+            let categoriaSugerida = filtros.category || '';
+            console.log("1. IA sugirió:", categoriaSugerida);
+            let categoriaTraducida = '';
+            if (window.traducirCategoria) {
+                categoriaTraducida = window.traducirCategoria(categoriaSugerida);
+                console.log("2. Diccionario tradujo a:", categoriaTraducida);
+            } else {
+                console.warn("ADVERTENCIA: window.traducirCategoria no está definida.");
+            }
+            const categoriaFinal = categoriaTraducida || categoriaSugerida || 'all';
+            console.log("3. Enviando al filtro:", categoriaFinal);
+            window.filterByCategory(categoriaFinal); 
+        } else {
+            console.error("ERROR CRÍTICO: window.filterByCategory no existe.");
+        }
     };
     div.appendChild(btn);
     chatContainer.appendChild(div);

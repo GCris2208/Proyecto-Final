@@ -82,3 +82,23 @@ html, body {
     box-shadow: none !important;
     border-color: transparent !important;
 }
+#toggleFilters {
+    position: relative;
+    z-index: 10;
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #f8f9fa;
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+}
+@media (min-width: 992px) {
+    #toggleFilters {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        margin-bottom: 1.5rem;
+    }
+}
