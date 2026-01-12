@@ -25,6 +25,7 @@ const SYSTEM_INSTRUCTION = {
         - Usuario: "Busco ropa para salir de chico" -> category: "hombre"
         - Usuario: "Quiero unos tacones" -> category: "zapatos"
         - Usuario: "Necesito una camisa para la oficina" -> category: "franelas"
+        - Usuario: "Quiero unos vestidos para un evento" -> category: "vestidos"
         - Usuario: "Busco algo para mi esposa" -> category: "mujer"
 
         ESTRUCTURA DE RESPUESTA JSON:

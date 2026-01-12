@@ -38,6 +38,7 @@ function traducirCategoria(input) {
         'mujeres': 'womens',
         'damas': 'womens',
         'vestido': 'dresses',
+        'vestidos': 'dresses',
         'lente': 'sunglasses',
         'lentes': 'sunglasses',
         'gafas': 'sunglasses',
