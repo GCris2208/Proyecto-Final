@@ -48,13 +48,23 @@
             <h1 class="display-1 fw-black text-uppercase mb-2">Tu Estilo.<br>Tu IA.</h1>
             <p class="lead fw-medium mb-4">Descubre combinaciones únicas creadas para ti.</p>
             <a href="#catalogo" class="btn btn-light rounded-pill px-4 py-2 fw-bold">Comprar Ahora</a>
-            <button class="btn btn-primary rounded-pill px-4 py-2 fw-bold ms-2" 
-                    data-bs-toggle="collapse" 
-                    data-bs-target="#chatCollapse" 
-                    aria-expanded="false" 
-                    aria-controls="chatCollapse">
-                Probar IA
-            </button>
+            <!-- Input oculto -->
+            <input type="file" id="imageInput" accept="image/*">
+
+            <!-- Label que reemplaza el botón "Choose file" -->
+            <label for="imageInput" class="custom-file-label">📷 Seleccionar prenda</label>
+
+            <!-- Botón exclusivo para analizar -->
+            <button id="sendImageBtn">Analizar prenda</button>
+
+            <!-- Modal para mostrar resultado -->
+            <div id="resultadoModal" class="modalImagen">
+            <div class="modal-contentIA">
+                <span class="closeIA" id="closeModal">&times;</span>
+                <h2>Recomendación de VestIA 👗</h2>
+                <pre id="resultadoTexto"></pre>
+            </div>
+            </div>
         </div>
     </header>
 

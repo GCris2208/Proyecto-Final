@@ -102,3 +102,95 @@ html, body {
         margin-bottom: 1.5rem;
     }
 }
+/* Botón exclusivo de Analizar prenda */
+#sendImageBtn {
+  background: linear-gradient(135deg, #6a5acd, #836fff);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  margin-top: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+#sendImageBtn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #836fff, #6a5acd);
+}
+
+/* Input de archivo personalizado */
+#imageInput {
+  display: none; /* ocultamos el input original */
+}
+
+/* Label que actúa como botón para el input */
+.custom-file-label {
+  display: inline-block;
+  background: #f4f4f4;
+  border: 2px dashed #6a5acd;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #6a5acd;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.custom-file-label:hover {
+  background: #6a5acd;
+  color: white;
+}
+
+/* Modal overlay */
+.modalImagen {
+  display: none; /* oculto por defecto */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.6); /* fondo semitransparente oscuro */
+}
+
+/* Contenido del modal */
+.modal-contentIA {
+  background-color: #ffffff; /* fondo blanco para contraste */
+  color: #333333;            /* texto oscuro legible */
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 500px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+/* Botón de cerrar */
+.closeIA {
+  color: #666;
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Texto dentro del modal */
+.modal-contentIA h2 {
+  margin-top: 0;
+  font-size: 20px;
+  color: #6a5acd; /* título destacado */
+}
+
+.modal-contentIA pre {
+  background: #f4f4f4;
+  color: #222; /* texto oscuro dentro del bloque */
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  overflow-x: auto;
+}
