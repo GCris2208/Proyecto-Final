@@ -138,7 +138,7 @@ async function enviarImagenGemini(imageFile) {
 
     const aiResponseJson = JSON.parse(aiResponseText);
 
-    // Humanizar el JSON
+    // Humanizar el JSON.
     let mensajeHumano = aiResponseJson.mensaje;
 
     if (aiResponseJson.filtros) {
