@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VestIA | Estilo & IA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top py-3">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-black fs-3" href="#">VEST<span class="text-secondary">IA</span></a>
+            <div class="d-flex align-items-center gap-3 order-lg-last ms-auto ms-lg-0">
+                <button class="btn btn-link text-dark p-0" title="Mi Perfil" data-bs-toggle="modal" data-bs-target="#profileModal">
+                    <i class="fa-regular fa-user fs-5"></i>
+                </button>
+                <button class="btn btn-link text-dark p-0 position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+                    <i class="fa-solid fa-bag-shopping fs-5"></i>
+                    <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                        0
+                    </span>
+                </button>
+            </div>
+            <button class="navbar-toggler border-0 ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarContent">
+                <ul class="navbar-nav mb-2 mb-lg-0 text-uppercase small fw-bold text-center mt-3 mt-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#">Novedades</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Hombre</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Mujer</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Accesorios</a></li>
+                </ul>
+                <div class="d-flex ms-lg-4 mt-3 mt-lg-0 justify-content-center">
+                    <div class="input-group rounded-pill bg-light border" style="max-width: 250px;">
+                        <span class="input-group-text border-0 bg-transparent text-muted"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" id="searchInput" class="form-control border-0 bg-transparent shadow-none small" placeholder="Buscar...">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <header class="hero-section text-center d-flex align-items-end justify-content-center pb-5 text-white">
+        <div class="container pb-5">
+            <h1 class="display-1 fw-black text-uppercase mb-2">Tu Estilo.<br>Tu IA.</h1>
+            <p class="lead fw-medium mb-4">Descubre combinaciones únicas creadas para ti.</p>
+            <a href="#catalogo" class="btn btn-light rounded-pill px-4 py-2 fw-bold">Comprar Ahora</a>
+            <!-- Input oculto -->
+            <input type="file" id="imageInput" accept="image/*">
+
+            <!-- Label que reemplaza el botón "Choose file" -->
+            <label for="imageInput" class="custom-file-label">📷 Seleccionar prenda</label>
+
+            <!-- Botón exclusivo para analizar -->
+            <button id="sendImageBtn">Analizar prenda</button>
+
+            <!-- Modal para mostrar resultado -->
+            <div id="resultadoModal" class="modalImagen">
+            <div class="modal-contentIA">
+                <span class="closeIA" id="closeModal">&times;</span>
+                <h2>Recomendación de VestIA 👗</h2>
+                <pre id="resultadoTexto"></pre>
+            </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container-fluid px-4 my-5" id="catalogo">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold fs-3">Lo más reciente</h2>
+            
+            <div class="d-flex gap-2">
+                <select class="form-select rounded-pill w-auto border-secondary" id="sortFilter">
+                    <option selected>Ordenar por</option>
+                    <option value="price-asc">Precio: Bajo-Alto</option>
+                    <option value="price-desc">Precio: Alto-Bajo</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-2 d-none d-lg-block" id="filterSidebar">
+                <div class="py-3 border-top">
+                    <h6 class="fw-bold">Categorías Destacadas</h6>
+                    <ul class="list-unstyled mt-2">
+                        <li><a href="#" class="text-dark text-decoration-none py-1 d-block">Vestidos</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none py-1 d-block">Tops</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none py-1 d-block">Zapatos</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none py-1 d-block">Franelas</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none py-1 d-block">Todos</a></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="col-lg-10">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4" id="products-container">
+                        </div>
+                    
+                    <div class="text-center mt-5">
+                        <button class="btn btn-outline-dark rounded-pill px-5 py-2 fw-bold" id="loadMoreBtn">Cargar más</button>
+                    </div>
+                </div>
+        </div>
+    </main>
+
+    <div class="position-fixed bottom-0 end-0 m-4" style="z-index: 1050;">
+        <button class="btn btn-dark rounded-circle p-0 d-flex align-items-center justify-content-center shadow-lg" 
+                style="width: 60px; height: 60px;" 
+                data-bs-toggle="collapse" data-bs-target="#chatCollapse">
+            <i class="fa-solid fa-message fs-4"></i>
+        </button>
+        <div class="collapse mt-2 position-absolute bottom-100 end-0 mb-2" id="chatCollapse" style="width: 320px;">
+            <div class="card border-0 shadow-lg overflow-hidden">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h6 class="m-0 fw-bold">Asistente VestIA</h6>
+                </div>
+                <div class="card-body bg-light" id="chat-messages" style="height: 400px; overflow-y: auto;">
+                    <div class="d-flex mb-3">
+                        <div class="bg-white p-3 rounded-3 shadow-sm" style="font-size: 0.9rem;">
+                            Hola, ¿en qué puedo ayudarte hoy?
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white border-top p-2">
+                    <div class="input-group">
+                        <input type="text" class="form-control border-0 bg-light rounded-pill" placeholder="Escribe un mensaje..." id="chatInput">
+                        <button class="btn btn-link text-dark" id="sendChat"><i class="fa-solid fa-arrow-up"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title fw-bold">Cesta</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="cart-items">
+                <p class="text-center mt-5 text-secondary">Tu cesta está vacía.</p>
+            </div>
+        </div>
+        <div class="offcanvas-footer p-4 bg-light">
+            <div class="d-flex justify-content-between mb-3 fw-bold fs-5">
+                <span>Total</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <button class="btn btn-dark w-100 rounded-pill py-3 fw-bold">Tramitar Pedido</button>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="imageModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0">
+                <div class="modal-body text-center p-5">
+                    <h4 class="fw-bold mb-3">Búsqueda Visual</h4>
+                    <p class="text-secondary mb-4">Sube una foto y nuestra IA encontrará prendas similares.</p>
+                    <div class="upload-area bg-light rounded-4 p-5 mb-3" style="border: 2px dashed #ccc; cursor: pointer;" onclick="document.getElementById('imageUploadInput').click()">
+                        <i class="fa-solid fa-camera fa-2x mb-2 text-dark"></i>
+                        <p class="mb-0 fw-bold small">Toca para subir</p>
+                        <input type="file" hidden id="imageUploadInput" accept="image/*">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-5">
+        <div class="container-fluid px-5">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h6 class="text-uppercase fw-bold mb-3 font-monospace text-light">Ayuda</h6>
+                    <ul class="list-unstyled text-secondary small">
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none">Envíos y entregas</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none">Devoluciones</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none">Opciones de pago</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="text-uppercase fw-bold mb-3 font-monospace text-light">Acerca de VestIA</h6>
+                    <ul class="list-unstyled text-secondary small">
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none">Noticias</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none">Carreras</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none">Sostenibilidad</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-top border-secondary pt-4 mt-4 d-flex justify-content-between flex-wrap">
+                <small class="text-secondary">&copy; 2026 VestIA, Inc. Todos los derechos reservados.</small>
+                <div class="social-icons">
+                    <i class="fa-brands fa-twitter text-secondary me-3"></i>
+                    <i class="fa-brands fa-facebook text-secondary me-3"></i>
+                    <i class="fa-brands fa-instagram text-secondary"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="modal fade" id="quickViewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg"> <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-md-6 bg-light d-flex align-items-center justify-content-center p-3">
+                        <img id="modalImg" src="" alt="Producto" class="img-fluid rounded" style="max-height: 400px; object-fit: contain;">
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="modal-header border-0 pb-0">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-4 pt-2">
+                            <small class="text-muted text-uppercase fw-bold" id="modalCategory">Categoría</small>
+                            <h3 class="fw-black mt-2 mb-3" id="modalTitle">Nombre del Producto</h3>
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <h4 class="fw-bold mb-0 me-3" id="modalPrice">$0.00</h4>
+                                <div class="text-warning small" id="modalRating">
+                                    </div>
+                            </div>
+
+                            <p class="text-secondary lh-lg" id="modalDesc">
+                                Descripción del producto...
+                            </p>
+
+                            <div class="d-grid gap-2 mt-4">
+                                <button class="btn btn-dark rounded-pill py-3 fw-bold" id="modalAddToCartBtn">
+                                    Agregar al Carrito
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-dark text-white border-0 flex-column align-items-center py-4">
+                <div class="rounded-circle bg-white text-dark d-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h5 class="modal-title fw-bold" id="headerUserName">Usuario</h5>
+                
+                <span id="styleBadge" class="badge bg-light text-dark mt-2 rounded-pill px-3 py-2 shadow-sm">
+                    <i class="fa-solid fa-sparkles"></i> Nuevo Cliente
+                </span>
+                
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <ul class="nav nav-tabs nav-fill" id="profileTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active fw-bold py-3" id="history-tab" data-bs-toggle="tab" data-bs-target="#history-pane" type="button" role="tab">
+                            <i class="fa-solid fa-clock-rotate-left me-1"></i> Historial
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link fw-bold py-3" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-pane" type="button" role="tab">
+                            <i class="fa-solid fa-gear me-1"></i> Ajustes
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content p-4" id="profileTabsContent">
+                    
+                    <div class="tab-pane fade show active" id="history-pane" role="tabpanel">
+                        <h6 class="text-muted text-uppercase small fw-bold mb-3">Tus últimas compras</h6>
+                        <div id="orders-history" class="overflow-auto custom-scrollbar" style="max-height: 300px;">
+                            </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="settings-pane" role="tabpanel">
+                        <form onsubmit="event.preventDefault(); window.saveProfile();">
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Nombre</label>
+                                <input type="text" class="form-control" id="profileName">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="profileEmail">
+                            </div>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <label class="form-label small fw-bold">Talla</label>
+                                    <select class="form-select" id="profileSize">
+                                        <option value="S">S</option>
+                                        <option value="M">M</option>
+                                        <option value="L">L</option>
+                                        <option value="XL">XL</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small fw-bold">Estilo Preferido</label>
+                                    <select class="form-select" id="profileStyle">
+                                        <option value="casual">Casual</option>
+                                        <option value="formal">Formal</option>
+                                        <option value="deportivo">Deportivo</option>
+                                        <option value="chic">Chic</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-dark">Guardar Cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js?v=2"></script>
+    <script src="js/chatbot.js?v=2"></script>
+    <script src="js/products.js?v=2"></script>
+    <script src="js/cart.js?v=2"></script>
+    <script src="js/filters.js?v=2"></script>
+    <script src="js/profile.js?v=2"></script>
+    <script src="js/main.js?v=2"></script>
+</body>
+</html>
